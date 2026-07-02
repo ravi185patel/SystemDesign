@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/chatapplicaion_whartsapp.iml" filepath="$PROJECT_DIR$/.idea/chatapplicaion_whartsapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chatbusinessservice/chatbusinessservice.iml" filepath="$PROJECT_DIR$/chatbusinessservice/chatbusinessservice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/websocketgatewayservice/websocketgatewayservice.iml" filepath="$PROJECT_DIR$/websocketgatewayservice/websocketgatewayservice.iml" />
+    </modules>
+  </component>
+</project>
