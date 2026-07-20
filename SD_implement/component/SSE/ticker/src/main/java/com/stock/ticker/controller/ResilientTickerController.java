@@ -1,6 +1,8 @@
 package com.stock.ticker.controller;
 
+import com.stock.ticker.model.Stock;
 import com.stock.ticker.model.StockPriceUpdate;
+import com.stock.ticker.service.BroadcastStockService;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,12 +16,17 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+
 public class ResilientTickerController {
 
     private final Random random = new Random();
+    private final BroadcastStockService broadcastStockService;
 
-    @GetMapping(value = "/api/stocks/emitter", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public ResilientTickerController(BroadcastStockService broadcastStockService) {
+        this.broadcastStockService = broadcastStockService;
+    }
+
+    @GetMapping(value = "v3/api/stocks/emitter", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<List<StockPriceUpdate>>> streamResilientEvents() {
         
         // 1. Core Data Stream: Generates stock ticks every 1 second
@@ -49,5 +56,11 @@ public class ResilientTickerController {
                     // Fallback: Recover smoothly from transient errors by restarting the stream window
                     return Flux.empty(); 
                 });
+    }
+
+    @GetMapping(value = "api/stocks/emitter", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ServerSentEvent<List<Stock>>> streamStocks() {
+        // 100 users will hit this endpoint, but they all hook into the exact same broadcaster
+        return broadcastStockService.getLiveStream();
     }
 }

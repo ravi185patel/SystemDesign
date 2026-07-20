@@ -3,12 +3,11 @@ package com.stock.ticker.controller;
 import com.stock.ticker.model.Stock;
 
 import com.stock.ticker.service.StockService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -28,4 +27,15 @@ public class StockController {
         return stockService.getAllStock();
     }
 
+    /**
+     * POST /api/stocks
+     * Body: { "ticker": "NVDA", "price": 920.50 }
+     *
+     * Adds a new stock or updates an existing ticker price reactively.
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Stock> addOrUpdateStock(@RequestBody Stock stockPayload) {
+        return stockService.addOrUpdateStock(stockPayload);
+    }
 }

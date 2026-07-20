@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Connects to Vite/React port securely
+ // Connects to Vite/React port securely
 public class EmittedTickerController {
 
     private final Random random = new Random();
