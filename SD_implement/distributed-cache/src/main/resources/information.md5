@@ -1,0 +1,11 @@
+create
+curl -X POST http://localhost:8080/v1/api/products -H "Content-Type: application/json"  -d "{\"name\":\"MacBook Pro\",\"description\":\"Apple laptop\",\"price\":189999}"
+
+get
+curl http://localhost:8080/api/products/1
+
+update
+curl -X PUT http://localhost:8080/v1/api/products/1 -H "Content-Type: application/json" -d "{\"name\":\"MacBook Pro\",\"description\":\"Apple laptop\",\"price\":10000}"
+
+delete
+curl -X DELETE http://localhost:8080/v1/api/products/1
