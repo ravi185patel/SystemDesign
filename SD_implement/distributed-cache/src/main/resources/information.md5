@@ -19,3 +19,37 @@ SERVER_PORT=8082 INSTANCE_ID=app-2 java -jar target/distributed-cache-0.0.1-SNAP
 SERVER_PORT=8083 INSTANCE_ID=app-3 java -jar target/distributed-cache-0.0.1-SNAPSHOT.jar
 
 curl http://localhost:8080/v1/api/products/6 & curl http://localhost:8081/v1/api/products/6 & curl http://localhost:8082/v1/api/products/6
+
+after adding distributed lock plus redis failure current architecture
+                         Client
+                           │
+                           ▼
+                    Spring Boot
+                           │
+                           ▼
+                       Redis
+                    /          \
+                  HIT          MISS
+                   │             │
+                   │             ▼
+                   │       Distributed Lock
+                   │             │
+                   │             ▼
+                   │        PostgreSQL
+                   │             │
+                   │             ▼
+                   │           Redis
+                   │
+                   ▼
+                Response
+
+            Redis failure
+                  │
+                  ▼
+             PostgreSQL
+                  │
+                  ▼
+              Response
+
+Issue:
+Cache can have steal data as it is down and due ttl still few data available which were updated in DB.
