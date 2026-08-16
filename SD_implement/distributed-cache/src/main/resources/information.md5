@@ -2,10 +2,20 @@ create
 curl -X POST http://localhost:8080/v1/api/products -H "Content-Type: application/json"  -d "{\"name\":\"MacBook Pro\",\"description\":\"Apple laptop\",\"price\":189999}"
 
 get
-curl http://localhost:8080/api/products/1
+curl http://localhost:8080/v1/api/products/1
 
 update
 curl -X PUT http://localhost:8080/v1/api/products/1 -H "Content-Type: application/json" -d "{\"name\":\"MacBook Pro\",\"description\":\"Apple laptop\",\"price\":10000}"
 
 delete
 curl -X DELETE http://localhost:8080/v1/api/products/1
+
+
+Powershell
+1..50 | ForEach-Object {  Invoke-RestMethod -Uri "http://localhost:8080/v1/api/products/5"}
+
+SERVER_PORT=8081 INSTANCE_ID=app-1 java -jar target/distributed-cache-0.0.1-SNAPSHOT.jar
+SERVER_PORT=8082 INSTANCE_ID=app-2 java -jar target/distributed-cache-0.0.1-SNAPSHOT.jar
+SERVER_PORT=8083 INSTANCE_ID=app-3 java -jar target/distributed-cache-0.0.1-SNAPSHOT.jar
+
+curl http://localhost:8080/v1/api/products/6 & curl http://localhost:8081/v1/api/products/6 & curl http://localhost:8082/v1/api/products/6

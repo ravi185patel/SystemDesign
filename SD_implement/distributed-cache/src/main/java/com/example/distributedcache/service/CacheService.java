@@ -10,6 +10,8 @@ import java.time.Duration;
 public class CacheService {
     private static final String PRODUCT_KEY_PREFIX ="product:";
 
+    private static final Duration CACHE_TTL = Duration.ofMinutes(3);
+
     private final RedisTemplate<String, Product> redisTemplate;
 
     public CacheService(RedisTemplate<String, Product> redisTemplate) {
@@ -29,7 +31,7 @@ public class CacheService {
 
     public void putProduct(Long id, Product product) {
         String key = buildKey(id);
-        redisTemplate.opsForValue().set(key,product, Duration.ofMinutes(10));
+        redisTemplate.opsForValue().set(key,product, CACHE_TTL);
     }
 
     public void deleteProduct(Long id) {
